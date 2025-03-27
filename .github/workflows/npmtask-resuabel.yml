@@ -1,0 +1,67 @@
+name: Reusable NPM Workflow
+
+on:
+  workflow_call:
+    inputs:
+      command:
+        required: true
+        type: string
+      workingDir:
+        required: true
+        type: string
+      verbose:
+        required: true
+        type: boolean
+      customCommand:
+        required: true
+        type: string
+      customRegistry:
+        required: true
+        type: string
+      customFeed:
+        required: true
+        type: string
+      customEndpoint:
+        required: true
+        type: string
+      publishRegistry:
+        required: true
+        type: string
+      publishFeed:
+        required: true
+        type: string
+      publishEndpoint:
+        required: true
+        type: string
+      sensitiveInfo:
+        required: true
+        type: string
+
+jobs:
+  npm-task:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Run NPM Command
+        run: |
+          echo "Command: ${{ inputs.command }}"
+          echo "Working Directory: ${{ inputs.workingDir }}"
+          echo "Verbose: ${{ inputs.verbose }}"
+          echo "Custom Command: ${{ inputs.customCommand }}"
+          echo "Custom Registry: ${{ inputs.customRegistry }}"
+          echo "Custom Feed: ${{ inputs.customFeed }}"
+          echo "Custom Endpoint: ${{ inputs.customEndpoint }}"
+          echo "Publish Registry: ${{ inputs.publishRegistry }}"
+          echo "Publish Feed: ${{ inputs.publishFeed }}"
+          echo "Publish Endpoint: ${{ inputs.publishEndpoint }}"
+          echo "Sensitive Info: ${{ inputs.sensitiveInfo }}"
+          cd ${{ inputs.workingDir }}
+          npm ${{ inputs.command }} --verbose=${{ inputs.verbose }}
+          npm run ${{ inputs.customCommand }}
