@@ -1,6 +1,5 @@
 name: Reusable Publish Workflow
 
-
 on:
   workflow_call:
     inputs:
@@ -49,6 +48,20 @@ jobs:
         run: |
           echo "Setting working directory to ${{ inputs.working_dir }}"
         working-directory: ${{ inputs.working_dir }}
+
+      - name: Check for nprmc File
+        run: |
+          if [ -f "${{ inputs.working_dir }}/nprmc" ]; then
+            echo "nprmc file found in ${{ inputs.working_dir }}"
+          else
+            echo "nprmc file not found in ${{ inputs.working_dir }}"
+            exit 1
+          fi
+
+      - name: Read nprmc File
+        run: |
+          echo "Reading nprmc file..."
+          cat "${{ inputs.working_dir }}/nprmc"
 
       - name: Run Custom Command
         if: inputs.custom_command != ''
