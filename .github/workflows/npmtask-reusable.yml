@@ -33,9 +33,6 @@ on:
       publishEndpoint:
         required: true
         type: string
-      sensitiveInfo:
-        required: true
-        type: string
 
 jobs:
   npm-task:
@@ -61,7 +58,6 @@ jobs:
           echo "Publish Registry: ${{ inputs.publishRegistry }}"
           echo "Publish Feed: ${{ inputs.publishFeed }}"
           echo "Publish Endpoint: ${{ inputs.publishEndpoint }}"
-          echo "Sensitive Info: ${{ inputs.sensitiveInfo }}"
           cd ${{ inputs.workingDir }}
           npm ${{ inputs.command }} --verbose=${{ inputs.verbose }}
           npm run ${{ inputs.customCommand }}
