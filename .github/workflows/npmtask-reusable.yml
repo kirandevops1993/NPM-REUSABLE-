@@ -43,6 +43,12 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Fix Dependency Conflicts
+        run: |
+          echo "Checking for dependency conflicts..."
+          npm cache clean --force
+          npm install --legacy-peer-deps exit 1
+
       - name: Run NPM Command
         run: |
           echo "Command: ${{ inputs.command }}"
