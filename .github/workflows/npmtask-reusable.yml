@@ -6,9 +6,6 @@ on:
       command:
         required: true
         type: string
-      workingDir:
-        required: true
-        type: string
       verbose:
         required: true
         type: boolean
@@ -46,17 +43,9 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Ensure Working Directory Exists
-        run: |
-          if [ ! -d "${{ inputs.workingDir }}" ]; then
-            echo "Working directory '${{ inputs.workingDir }}' does not exist. Creating it..."
-            mkdir -p "${{ inputs.workingDir }}"
-          fi
-
       - name: Run NPM Command
         run: |
           echo "Command: ${{ inputs.command }}"
-          echo "Working Directory: ${{ inputs.workingDir }}"
           echo "Verbose: ${{ inputs.verbose }}"
           echo "Custom Command: ${{ inputs.customCommand }}"
           echo "Custom Registry: ${{ inputs.customRegistry }}"
@@ -65,6 +54,5 @@ jobs:
           echo "Publish Registry: ${{ inputs.publishRegistry }}"
           echo "Publish Feed: ${{ inputs.publishFeed }}"
           echo "Publish Endpoint: ${{ inputs.publishEndpoint }}"
-          cd ${{ inputs.workingDir }}
           npm ${{ inputs.command }} --verbose=${{ inputs.verbose }}
           npm run ${{ inputs.customCommand }}
