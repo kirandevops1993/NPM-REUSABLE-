@@ -46,6 +46,13 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Check Working Directory
+        run: |
+          if [ ! -d "${{ inputs.workingDir }}" ]; then
+            echo "Error: Working directory '${{ inputs.workingDir }}' does not exist."
+            exit 1
+          fi
+
       - name: Run NPM Command
         run: |
           echo "Command: ${{ inputs.command }}"
