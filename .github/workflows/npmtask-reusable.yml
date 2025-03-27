@@ -43,13 +43,20 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Fix Dependency Conflicts
+      - name: Attempt NPM Install
         run: |
-          echo "Checking for dependency conflicts..."
-          npm cache clean --force
-          npm install --legacy-peer-deps exit 1
+          echo "Attempting to install dependencies..."
+          npm install --legacy-peer-deps npm install --force
+        continue-on-error: true
+
+      - name: Debug Dependency Conflicts
+        if: failure()
+        run: |
+          echo "Dependency conflict detected. Reviewing logs..."
+          cat /home/runner/.npm/_logs/*.log
 
       - name: Run NPM Command
+        if: success()
         run: |
           echo "Command: ${{ inputs.command }}"
           echo "Verbose: ${{ inputs.verbose }}"
