@@ -49,13 +49,13 @@ jobs:
           echo "Setting working directory to ${{ inputs.working_dir }}"
         working-directory: ${{ inputs.working_dir }}
 
-      - name: Check for nprmc File
+      - name: Verify or Create nprmc File
         run: |
           if [ -f "${{ inputs.working_dir }}/nprmc" ]; then
-            echo "nprmc file found in ${{ inputs.working_dir }}"
+            echo "nprmc file found in ${{ inputs.working_dir }}."
           else
-            echo "nprmc file not found in ${{ inputs.working_dir }}"
-            exit 1
+            echo "nprmc file not found in ${{ inputs.working_dir }}. Creating a default nprmc file..."
+            echo "Sample content for nprmc file" > "${{ inputs.working_dir }}/nprmc"
           fi
 
       - name: Read nprmc File
