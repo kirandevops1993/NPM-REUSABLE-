@@ -1,4 +1,5 @@
-name: Reusable NPM Workflow
+name: Reusable Publish Workflow
+
 
 on:
   workflow_call:
@@ -6,66 +7,88 @@ on:
       command:
         required: true
         type: string
+      working_dir:
+        required: false
+        type: string
+        default: "."
       verbose:
-        required: true
+        required: false
         type: boolean
-      customCommand:
-        required: true
+        default: false
+      custom_command:
+        required: false
         type: string
-      customRegistry:
-        required: true
+      custom_registry:
+        required: false
         type: string
-      customFeed:
-        required: true
+      custom_feed:
+        required: false
         type: string
-      customEndpoint:
-        required: true
+      custom_endpoint:
+        required: false
         type: string
-      publishRegistry:
-        required: true
+      publish_feed:
+        required: false
         type: string
-      publishFeed:
-        required: true
+      publish_package_metadata:
+        required: false
         type: string
-      publishEndpoint:
-        required: true
+      publish_endpoint:
+        required: false
         type: string
 
 jobs:
-  npm-task:
+  publish:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set Up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Attempt NPM Install
+      - name: Set Working Directory
         run: |
-          echo "Attempting to install dependencies..."
-          npm install --legacy-peer-deps npm install --force
-        continue-on-error: true
+          echo "Setting working directory to ${{ inputs.working_dir }}"
+        working-directory: ${{ inputs.working_dir }}
 
-      - name: Debug Dependency Conflicts
-        if: failure()
+      - name: Run Custom Command
+        if: inputs.custom_command != ''
         run: |
-          echo "Dependency conflict detected. Reviewing logs..."
-          cat /home/runner/.npm/_logs/*.log
+          echo "Executing custom command: ${{ inputs.custom_command }}"
+          ${{ inputs.custom_command }}
 
-      - name: Run NPM Command
-        if: success()
+      - name: Configure Custom Registry
+        if: inputs.custom_registry != ''
         run: |
-          echo "Command: ${{ inputs.command }}"
-          echo "Verbose: ${{ inputs.verbose }}"
-          echo "Custom Command: ${{ inputs.customCommand }}"
-          echo "Custom Registry: ${{ inputs.customRegistry }}"
-          echo "Custom Feed: ${{ inputs.customFeed }}"
-          echo "Custom Endpoint: ${{ inputs.customEndpoint }}"
-          echo "Publish Registry: ${{ inputs.publishRegistry }}"
-          echo "Publish Feed: ${{ inputs.publishFeed }}"
-          echo "Publish Endpoint: ${{ inputs.publishEndpoint }}"
-          npm ${{ inputs.command }} --verbose=${{ inputs.verbose }}
-          npm run ${{ inputs.customCommand }}
+          echo "Configuring custom registry: ${{ inputs.custom_registry }}"
+
+      - name: Configure Custom Feed
+        if: inputs.custom_feed != ''
+        run: |
+          echo "Configuring custom feed: ${{ inputs.custom_feed }}"
+
+      - name: Configure Custom Endpoint
+        if: inputs.custom_endpoint != ''
+        run: |
+          echo "Configuring custom endpoint: ${{ inputs.custom_endpoint }}"
+
+      - name: Publish Feed
+        if: inputs.publish_feed != ''
+        run: |
+          echo "Publishing to feed: ${{ inputs.publish_feed }}"
+
+      - name: Publish Package Metadata
+        if: inputs.publish_package_metadata != ''
+        run: |
+          echo "Publishing package metadata: ${{ inputs.publish_package_metadata }}"
+
+      - name: Publish to Endpoint
+        if: inputs.publish_endpoint != ''
+        run: |
+          echo "Publishing to endpoint: ${{ inputs.publish_endpoint }}"
+
+      - name: Run Main Command
+        run: |
+          echo "Executing main command: ${{ inputs.command }}"
+          ${{ inputs.command }}
+        env:
+          VERBOSE: ${{ inputs.verbose }}
