@@ -1,3 +1,6 @@
+REUSABLE :
+
+
 name: Reusable Publish Workflow
 
 on:
@@ -17,7 +20,7 @@ on:
       custom_command:
         required: true
         type: string
-        default: "Default custom command"
+        default: "echo 'Default custom command'"
       custom_registry:
         required: true
         type: string
@@ -53,51 +56,56 @@ jobs:
 
       - name: Set Working Directory
         run: |
-          cd ${{ inputs.working_dir }}
+          echo "Setting working directory to ${{ inputs.working_dir }}"
         working-directory: ${{ inputs.working_dir }}
 
       - name: Verify or Create nprmc File
         run: |
           if [ -f "${{ inputs.working_dir }}/nprmc" ]; then
-            :
+            echo "nprmc file found in ${{ inputs.working_dir }}."
           else
+            echo "nprmc file not found in ${{ inputs.working_dir }}. Creating a default nprmc file..."
             echo "Sample content for nprmc file" > "${{ inputs.working_dir }}/nprmc"
           fi
 
       - name: Read nprmc File
         run: |
+          echo "Reading nprmc file..."
           cat "${{ inputs.working_dir }}/nprmc"
 
       - name: Run Custom Command
         run: |
+          echo "Executing custom command: ${{ inputs.custom_command }}"
           ${{ inputs.custom_command }}
 
       - name: Configure Custom Registry
         run: |
-          # Custom registry configuration logic here
+          echo "Configuring custom registry: ${{ inputs.custom_registry }}"
 
       - name: Configure Custom Feed
         run: |
-          # Custom feed configuration logic here
+          echo "Configuring custom feed: ${{ inputs.custom_feed }}"
 
       - name: Configure Custom Endpoint
         run: |
-          # Custom endpoint configuration logic here
+          echo "Configuring custom endpoint: ${{ inputs.custom_endpoint }}"
 
       - name: Publish Feed
         run: |
-          # Publishing to feed logic here
+          echo "Publishing to feed: ${{ inputs.publish_feed }}"
 
       - name: Publish Package Metadata
         run: |
-          # Publishing package metadata logic here
+          echo "Publishing package metadata: ${{ inputs.publish_package_metadata }}"
 
       - name: Publish to Endpoint
         run: |
-          # Publishing to endpoint logic here
+          echo "Publishing to endpoint: ${{ inputs.publish_endpoint }}"
 
       - name: Run Main Command
         run: |
+          echo "Executing main command: ${{ inputs.command }}"
           ${{ inputs.command }}
         env:
           VERBOSE: ${{ inputs.verbose }}
+
