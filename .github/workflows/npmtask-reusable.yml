@@ -1,6 +1,3 @@
-REUSABLE :
-
-
 name: Reusable Publish Workflow
 
 on:
@@ -108,4 +105,3 @@ jobs:
           ${{ inputs.command }}
         env:
           VERBOSE: ${{ inputs.verbose }}
-
