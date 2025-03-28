@@ -6,6 +6,7 @@ on:
       command:
         required: true
         type: string
+        default: "npm install"
       working_dir:
         required: true
         type: string
@@ -17,7 +18,7 @@ on:
       custom_command:
         required: true
         type: string
-        default: "echo 'Default custom command'"
+        default: "npm install"
       custom_registry:
         required: true
         type: string
@@ -42,66 +43,3 @@ on:
         required: true
         type: string
         default: "https://default.publish.endpoint.url"
-
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set Working Directory
-        run: |
-          echo "Setting working directory to ${{ inputs.working_dir }}"
-        working-directory: ${{ inputs.working_dir }}
-
-      - name: Verify or Create nprmc File
-        run: |
-          if [ -f "${{ inputs.working_dir }}/nprmc" ]; then
-            echo "nprmc file found in ${{ inputs.working_dir }}."
-          else
-            echo "nprmc file not found in ${{ inputs.working_dir }}. Creating a default nprmc file..."
-            touch "${{ inputs.working_dir }}/nprmc"
-          fi
-
-      - name: Read nprmc File
-        run: |
-          echo "Reading nprmc file..."
-          cat "${{ inputs.working_dir }}/nprmc"
-
-      - name: Run Custom Command
-        run: |
-          echo "Executing custom command: ${{ inputs.custom_command }}"
-          ${{ inputs.custom_command }}
-
-      - name: Configure Custom Registry
-        run: |
-          echo "Configuring custom registry: ${{ inputs.custom_registry }}"
-
-      - name: Configure Custom Feed
-        run: |
-          echo "Configuring custom feed: ${{ inputs.custom_feed }}"
-
-      - name: Configure Custom Endpoint
-        run: |
-          echo "Configuring custom endpoint: ${{ inputs.custom_endpoint }}"
-
-      - name: Publish Feed
-        run: |
-          echo "Publishing to feed: ${{ inputs.publish_feed }}"
-
-      - name: Publish Package Metadata
-        run: |
-          echo "Publishing package metadata: ${{ inputs.publish_package_metadata }}"
-
-      - name: Publish to Endpoint
-        run: |
-          echo "Publishing to endpoint: ${{ inputs.publish_endpoint }}"
-
-      - name: Run Main Command
-        run: |
-          echo "Executing main command: ${{ inputs.command }}"
-          ${{ inputs.command }}
-        env:
-          VERBOSE: ${{ inputs.verbose }}
