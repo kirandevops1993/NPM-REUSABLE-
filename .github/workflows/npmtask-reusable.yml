@@ -17,7 +17,7 @@ on:
       custom_command:
         required: true
         type: string
-        default: "echo 'Default custom command'"
+        default: "npm install"
       custom_registry:
         required: true
         type: string
