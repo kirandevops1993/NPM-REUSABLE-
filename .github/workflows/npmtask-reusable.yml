@@ -99,17 +99,10 @@ jobs:
         run: |
           echo "Publishing to endpoint: ${{ inputs.publish_endpoint }}"
 
-      - name: Resolve Dependency Conflicts
-        run: |
-          echo "Checking for dependency conflicts..."
-          npm dedupe
-          npm ci --force
-        env:
-          VERBOSE: ${{ inputs.verbose }}
-
       - name: Run Main Command
         run: |
           echo "Executing main command: ${{ inputs.command }}"
           ${{ inputs.command }}
         env:
           VERBOSE: ${{ inputs.verbose }}
+
