@@ -103,7 +103,7 @@ jobs:
         run: |
           echo "Checking for dependency conflicts..."
           npm dedupe
-          npm install --force
+          npm ci --force
         env:
           VERBOSE: ${{ inputs.verbose }}
 
