@@ -6,6 +6,7 @@ on:
       command:
         required: true
         type: string
+        default: "npm install"
       working_dir:
         required: true
         type: string
