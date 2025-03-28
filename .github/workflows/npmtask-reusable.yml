@@ -62,7 +62,7 @@ jobs:
             echo "nprmc file found in ${{ inputs.working_dir }}."
           else
             echo "nprmc file not found in ${{ inputs.working_dir }}. Creating a default nprmc file..."
-            echo "Sample content for nprmc file" > "${{ inputs.working_dir }}/nprmc"
+            > "${{ inputs.working_dir }}/nprmc"
           fi
 
       - name: Read nprmc File
