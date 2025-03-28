@@ -17,7 +17,7 @@ on:
       custom_command:
         required: true
         type: string
-        default: "npm cache clean --force"
+        default: "echo 'Default custom command'"
       custom_registry:
         required: true
         type: string
@@ -62,7 +62,7 @@ jobs:
             echo "nprmc file found in ${{ inputs.working_dir }}."
           else
             echo "nprmc file not found in ${{ inputs.working_dir }}. Creating a default nprmc file..."
-            touch "${{ inputs.working_dir }}/nprmc"
+            echo "Sample content for nprmc file" > "${{ inputs.working_dir }}/nprmc"
           fi
 
       - name: Read nprmc File
