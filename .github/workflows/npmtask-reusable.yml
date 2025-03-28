@@ -7,34 +7,41 @@ on:
         required: true
         type: string
       working_dir:
-        required: false
+        required: true
         type: string
         default: "."
       verbose:
-        required: false
+        required: true
         type: boolean
         default: false
       custom_command:
-        required: false
+        required: true
         type: string
+        default: "echo 'Default custom command'"
       custom_registry:
-        required: false
+        required: true
         type: string
+        default: "https://default.registry.url"
       custom_feed:
-        required: false
+        required: true
         type: string
+        default: "default-feed"
       custom_endpoint:
-        required: false
+        required: true
         type: string
+        default: "https://default.endpoint.url"
       publish_feed:
-        required: false
+        required: true
         type: string
+        default: "default-publish-feed"
       publish_package_metadata:
-        required: false
+        required: true
         type: string
+        default: "default-metadata-file.json"
       publish_endpoint:
-        required: false
+        required: true
         type: string
+        default: "https://default.publish.endpoint.url"
 
 jobs:
   publish:
@@ -64,38 +71,31 @@ jobs:
           cat "${{ inputs.working_dir }}/nprmc"
 
       - name: Run Custom Command
-        if: inputs.custom_command != ''
         run: |
           echo "Executing custom command: ${{ inputs.custom_command }}"
           ${{ inputs.custom_command }}
 
       - name: Configure Custom Registry
-        if: inputs.custom_registry != ''
         run: |
           echo "Configuring custom registry: ${{ inputs.custom_registry }}"
 
       - name: Configure Custom Feed
-        if: inputs.custom_feed != ''
         run: |
           echo "Configuring custom feed: ${{ inputs.custom_feed }}"
 
       - name: Configure Custom Endpoint
-        if: inputs.custom_endpoint != ''
         run: |
           echo "Configuring custom endpoint: ${{ inputs.custom_endpoint }}"
 
       - name: Publish Feed
-        if: inputs.publish_feed != ''
         run: |
           echo "Publishing to feed: ${{ inputs.publish_feed }}"
 
       - name: Publish Package Metadata
-        if: inputs.publish_package_metadata != ''
         run: |
           echo "Publishing package metadata: ${{ inputs.publish_package_metadata }}"
 
       - name: Publish to Endpoint
-        if: inputs.publish_endpoint != ''
         run: |
           echo "Publishing to endpoint: ${{ inputs.publish_endpoint }}"
 
