@@ -22,26 +22,7 @@ on:
         required: true
         type: string
         default: "https://default.registry.url"
-      custom_feed:
-        required: true
-        type: string
-        default: "default-feed"
-      custom_endpoint:
-        required: true
-        type: string
-        default: "https://default.endpoint.url"
-      publish_feed:
-        required: true
-        type: string
-        default: "default-publish-feed"
-      publish_package_metadata:
-        required: true
-        type: string
-        default: "default-metadata-file.json"
-      publish_endpoint:
-        required: true
-        type: string
-        default: "https://default.publish.endpoint.url"
+      
 
 jobs:
   publish:
