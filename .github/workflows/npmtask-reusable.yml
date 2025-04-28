@@ -60,26 +60,7 @@ jobs:
         run: |
           echo "Configuring custom registry: ${{ inputs.custom_registry }}"
 
-      - name: Configure Custom Feed
-        run: |
-          echo "Configuring custom feed: ${{ inputs.custom_feed }}"
-
-      - name: Configure Custom Endpoint
-        run: |
-          echo "Configuring custom endpoint: ${{ inputs.custom_endpoint }}"
-
-      - name: Publish Feed
-        run: |
-          echo "Publishing to feed: ${{ inputs.publish_feed }}"
-
-      - name: Publish Package Metadata
-        run: |
-          echo "Publishing package metadata: ${{ inputs.publish_package_metadata }}"
-
-      - name: Publish to Endpoint
-        run: |
-          echo "Publishing to endpoint: ${{ inputs.publish_endpoint }}"
-
+      
       - name: Run Main Command
         run: |
           echo "Executing main command: ${{ inputs.command }}"
